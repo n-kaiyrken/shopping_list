@@ -1,12 +1,13 @@
 package com.example.shoppinglistsumin.presentation
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.shoppinglistsumin.data.ShopListRepositoryImpl
-import com.example.shoppinglistsumin.domain.*
+import com.example.shoppinglistsumin.domain.DeleteItemFromListUseCase
+import com.example.shoppinglistsumin.domain.EditItemUseCase
+import com.example.shoppinglistsumin.domain.GetShopListUseCase
+import com.example.shoppinglistsumin.domain.ShopItem
 
-class MainViewModel: ViewModel() {
+class MainViewModel : ViewModel() {
 
     private val shopListRepository = ShopListRepositoryImpl
 
@@ -16,11 +17,11 @@ class MainViewModel: ViewModel() {
 
     val shopListLiveData = getShopListUseCase.getShopList()
 
-    fun deleteItemFromList(item: ShopItem){
+    fun deleteItemFromList(item: ShopItem) {
         deleteItemFromListUseCase.deleteItem(item)
     }
 
-    fun changeEnabledStateItem(item: ShopItem){
+    fun changeEnabledStateItem(item: ShopItem) {
         val newitem = item.copy(enabled = !item.enabled)
         editItemUseCase.editShopItem(newitem)
     }

@@ -1,6 +1,5 @@
 package com.example.shoppinglistsumin.presentation
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.example.shoppinglistsumin.databinding.ItemDisabledBinding
@@ -12,13 +11,11 @@ class ShopListAdapter() : androidx.recyclerview.widget.ListAdapter<ShopItem, Sho
     ShopItemDiffCallback()
 ) {
 
-    private var count = 0
     var onShopItemLongClickListener: ((shopItem: ShopItem) -> Unit)? = null
     var onShopItemClickListener: ((shopItem: ShopItem) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShopItemViewHolder {
 
-        Log.d("ShopListAdapter", "onCreateViewHolder ${++count}")
         return when (viewType) {
             VIEW_TYPE_ENABLED -> ShopItemViewHolder.ShopListViewHolderEnabled(
                 ItemEnabledBinding.inflate(

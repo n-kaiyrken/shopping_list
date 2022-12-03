@@ -4,4 +4,6 @@
     <string name="hint_count">Count:</string>
     <string name="save">Save</string>
     <string name="button_for_add_item">Button for add item</string>
+    <string name="error_invalid_name">Error: Invalid name</string>
+    <string name="error_invalid_count">Error: Invalid count</string>
 </resources>
