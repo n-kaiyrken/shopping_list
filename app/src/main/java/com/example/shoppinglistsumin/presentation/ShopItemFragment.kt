@@ -1,8 +1,10 @@
 package com.example.shoppinglistsumin.presentation
 
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +20,16 @@ class ShopItemFragment : Fragment() {
     private lateinit var viewModel: ShopItemViewModel
     private var screenMode: String = MODE_UNKNOWN
     private var shopItemId: Int = ShopItem.UNDEFINED_ID
+    private lateinit var onEditingFinishedListener: OnEditingFinishedListener
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is OnEditingFinishedListener) {
+            onEditingFinishedListener = context
+        } else {
+            throw RuntimeException("Activity must impl interface OnEditingFinishedListener")
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,9 +54,13 @@ class ShopItemFragment : Fragment() {
         addTextChangedListeners()
     }
 
+    interface OnEditingFinishedListener{
+        fun onEditingFinished()
+    }
+
     private fun observeViewModel() {
         viewModel.shouldCloseScreen.observe(viewLifecycleOwner) {
-            activity?.onBackPressed()
+            onEditingFinishedListener.onEditingFinished()
         }
         viewModel.errorInputName.observe(viewLifecycleOwner) {
             if (it) {
