@@ -35,6 +35,7 @@ class ShopItemFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        parseParams()
         viewModel = ViewModelProvider(this).get(ShopItemViewModel::class.java)
         launchRightMode()
         observeViewModel()
