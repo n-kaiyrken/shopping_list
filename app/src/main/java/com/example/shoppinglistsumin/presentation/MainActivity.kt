@@ -16,13 +16,11 @@ class MainActivity() : AppCompatActivity(), ShopItemFragment.OnEditingFinishedLi
     private lateinit var viewModel: MainViewModel
     private lateinit var binding: ActivityMainBinding
     private lateinit var shoplistAdapter: ShopListAdapter
-    private var shopItemContainer: FragmentContainerView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        shopItemContainer = binding.mainShopItemFragmentContainer
         setupRecyclerView()
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         viewModel.shopListLiveData.observe(this) {
@@ -48,7 +46,7 @@ class MainActivity() : AppCompatActivity(), ShopItemFragment.OnEditingFinishedLi
     }
 
     private fun isOnePaneMode(): Boolean {
-        return shopItemContainer == null
+        return binding.mainShopItemFragmentContainer == null
     }
 
     private fun setupRecyclerView() {

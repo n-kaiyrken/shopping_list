@@ -16,7 +16,10 @@ import com.example.shoppinglistsumin.domain.ShopItem
 
 class ShopItemFragment : Fragment() {
 
-    private lateinit var binding: FragmentShopitemBinding
+    private var _binding: FragmentShopitemBinding? = null
+    private val binding: FragmentShopitemBinding
+        get() = _binding ?:throw RuntimeException("FragmentShopitemBinding == null")
+
     private lateinit var viewModel: ShopItemViewModel
     private var screenMode: String = MODE_UNKNOWN
     private var shopItemId: Int = ShopItem.UNDEFINED_ID
@@ -41,7 +44,7 @@ class ShopItemFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentShopitemBinding.inflate(inflater, container, false)
+        _binding = FragmentShopitemBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -49,6 +52,8 @@ class ShopItemFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         parseParams()
         viewModel = ViewModelProvider(this).get(ShopItemViewModel::class.java)
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
         launchRightMode()
         observeViewModel()
         addTextChangedListeners()
@@ -58,23 +63,14 @@ class ShopItemFragment : Fragment() {
         fun onEditingFinished()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     private fun observeViewModel() {
         viewModel.shouldCloseScreen.observe(viewLifecycleOwner) {
             onEditingFinishedListener.onEditingFinished()
-        }
-        viewModel.errorInputName.observe(viewLifecycleOwner) {
-            if (it) {
-                binding.tilName.error = getString(R.string.error_invalid_name)
-            } else {
-                binding.tilName.error = null
-            }
-        }
-        viewModel.errorInputCount.observe(viewLifecycleOwner) {
-            if (it) {
-                binding.tilCount.error = getString(R.string.error_invalid_count)
-            } else {
-                binding.tilCount.error = null
-            }
         }
     }
 
